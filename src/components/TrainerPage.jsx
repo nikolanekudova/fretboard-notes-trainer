@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { data } from "../data";
 import soundEffect from "../assets/correct.mp3"
-import { CorrectPage } from "./CorrectPage";
 
 export function TrainerPage(appStart, setAppStart) {
     const [frequency, setFrequency] = useState(0);
@@ -19,6 +18,7 @@ export function TrainerPage(appStart, setAppStart) {
     }
 
     useEffect(() => {
+        // frequency from microphone is +-10 Hz from prescribed
         if (Math.abs(noteStringFrequency.frequency - frequency) <= 10) {
             playSound();
             setShowCorrect(true);
@@ -54,10 +54,11 @@ export function TrainerPage(appStart, setAppStart) {
 
                         let pitch = autoCorrelate(audioData, audioCtx.sampleRate);
 
+                        // ignore pitch over 1000 Hz
                         if (pitch < 1000) {
                             setFrequency(pitch);
                         }
-                    }, 500);
+                    }, 500); // check pitch every 0.5 s
                 })
                 .catch((err) => {
                     console.log(err);
@@ -133,13 +134,15 @@ export function TrainerPage(appStart, setAppStart) {
 
     function stopTuner() {
         appStart.setAppStart(false);
-        location.reload();
+        location.reload(); // stop function is not working
     }
 
     return (
         <div>
             {showCorrect && (
-                <CorrectPage />
+                    <div className="correct-page-wrapper">
+                        <div>✅</div>
+                    </div>
             )}
             <div className="trainer-page-wrapper">
                 <button onClick={stopTuner}>Stop Trainer 🛑</button>
