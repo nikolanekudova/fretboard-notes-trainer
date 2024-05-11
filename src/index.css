@@ -5,6 +5,7 @@ body {
 
 h1 {
     margin: 0;
+    font-size: 2em;
 }
 
 .page-wrapper {
@@ -14,12 +15,13 @@ h1 {
     flex-direction: column;
     align-items: center;
     gap: 50px;
+    text-align: center;
 }
 
 button {
     color: #090909;
     padding: 0.7em 1.7em;
-    font-size: 18px;
+    font-size: 1.1em;
     border-radius: 0.5em;
     background: #e8e8e8;
     cursor: pointer;
@@ -43,5 +45,53 @@ button:active {
 }
 
 .notes-strings-text {
-    font-size: 3em;
+    font-size: 2.3em;
+}
+
+.correct-page-wrapper {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    text-align: center;
+    background-color: rgb(0, 0, 0, 0.3);
+    font-size: 100px;
+    color: white;
+
+    /* animation – fade in and out */
+    -webkit-animation: fadeinout 0.5s ease-in-out forwards;
+    animation: fadeinout 1s ease-in-out forwards;
+
+    div {
+        margin-top: 30vh;
+    }
+}
+
+@-webkit-keyframes fadeinout {
+  0%,100% { opacity: 0; }
+  50% { opacity: 1; }
+}
+
+@keyframes fadeinout {
+  0%,100% { opacity: 0; }
+  50% { opacity: 1; }
+}
+
+.frequency {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.frequency-wrapper {
+    display: flex;
+    gap: 10px;
+}
+
+.frequency-text {
+    width: 120px;
+    text-align: right;
 }
