@@ -21,11 +21,16 @@ export function TrainerPage(appStart, setAppStart) {
     });
     const [notes, setNotes] = useState({
         C: true,
+        "C# / D♭": true,
         D: true,
+        "D# / E♭": true,
         E: true,
         F: true,
+        "F# / G♭": true,
         G: true,
+        "G# / A♭": true,
         A: true,
+        "A# / B♭": true,
         B: true,
     });
     const [chromaticNatural, setChromaticNatural] = useState("chromatic");
@@ -76,7 +81,6 @@ export function TrainerPage(appStart, setAppStart) {
         }
 
         console.log(allData);
-
         return allData;
     }
 
@@ -351,104 +355,180 @@ export function TrainerPage(appStart, setAppStart) {
                     <div>
                         <div className="header-inputs">Notes</div>
                         <div className="notes-wrapper">
-                            <label>
-                                <input
-                                    type="checkbox"
-                                    name="noteC"
-                                    checked={notes.C}
-                                    onChange={() =>
-                                        setNotes((prevState) => ({
-                                            ...prevState,
-                                            C: !prevState.C,
-                                        }))
-                                    }
-                                />
-                                C
-                            </label>
-                            <label>
-                                <input
-                                    type="checkbox"
-                                    name="noteD"
-                                    checked={notes.D}
-                                    onChange={() =>
-                                        setNotes((prevState) => ({
-                                            ...prevState,
-                                            D: !prevState.D,
-                                        }))
-                                    }
-                                />
-                                D
-                            </label>
-                            <label>
-                                <input
-                                    type="checkbox"
-                                    name="noteE"
-                                    checked={notes.E}
-                                    onChange={() =>
-                                        setNotes((prevState) => ({
-                                            ...prevState,
-                                            E: !prevState.E,
-                                        }))
-                                    }
-                                />
-                                E
-                            </label>
-                            <label>
-                                <input
-                                    type="checkbox"
-                                    name="noteF"
-                                    checked={notes.F}
-                                    onChange={() =>
-                                        setNotes((prevState) => ({
-                                            ...prevState,
-                                            F: !prevState.F,
-                                        }))
-                                    }
-                                />
-                                F
-                            </label>
-                            <label>
-                                <input
-                                    type="checkbox"
-                                    name="noteG"
-                                    checked={notes.G}
-                                    onChange={() =>
-                                        setNotes((prevState) => ({
-                                            ...prevState,
-                                            G: !prevState.G,
-                                        }))
-                                    }
-                                />
-                                G
-                            </label>
-                            <label>
-                                <input
-                                    type="checkbox"
-                                    name="noteA"
-                                    checked={notes.A}
-                                    onChange={() =>
-                                        setNotes((prevState) => ({
-                                            ...prevState,
-                                            A: !prevState.A,
-                                        }))
-                                    }
-                                />
-                                A
-                            </label>
-                            <label>
-                                <input
-                                    type="checkbox"
-                                    name="noteB"
-                                    checked={notes.B}
-                                    onChange={() =>
-                                        setNotes((prevState) => ({
-                                            ...prevState,
-                                            B: !prevState.B,
-                                        }))
-                                    }
-                                />
-                                B
-                            </label>
+                            <div>
+                                <label>
+                                    <input
+                                        type="checkbox"
+                                        name="noteC"
+                                        checked={notes.C}
+                                        onChange={() =>
+                                            setNotes((prevState) => ({
+                                                ...prevState,
+                                                C: !prevState.C,
+                                            }))
+                                        }
+                                    />
+                                    C
+                                </label>
+                                <label>
+                                    <input
+                                        type="checkbox"
+                                        name="noteD"
+                                        checked={notes.D}
+                                        onChange={() =>
+                                            setNotes((prevState) => ({
+                                                ...prevState,
+                                                D: !prevState.D,
+                                            }))
+                                        }
+                                    />
+                                    D
+                                </label>
+                                <label>
+                                    <input
+                                        type="checkbox"
+                                        name="noteE"
+                                        checked={notes.E}
+                                        onChange={() =>
+                                            setNotes((prevState) => ({
+                                                ...prevState,
+                                                E: !prevState.E,
+                                            }))
+                                        }
+                                    />
+                                    E
+                                </label>
+                                <label>
+                                    <input
+                                        type="checkbox"
+                                        name="noteF"
+                                        checked={notes.F}
+                                        onChange={() =>
+                                            setNotes((prevState) => ({
+                                                ...prevState,
+                                                F: !prevState.F,
+                                            }))
+                                        }
+                                    />
+                                    F
+                                </label>
+                                <label>
+                                    <input
+                                        type="checkbox"
+                                        name="noteG"
+                                        checked={notes.G}
+                                        onChange={() =>
+                                            setNotes((prevState) => ({
+                                                ...prevState,
+                                                G: !prevState.G,
+                                            }))
+                                        }
+                                    />
+                                    G
+                                </label>
+                                <label>
+                                    <input
+                                        type="checkbox"
+                                        name="noteA"
+                                        checked={notes.A}
+                                        onChange={() =>
+                                            setNotes((prevState) => ({
+                                                ...prevState,
+                                                A: !prevState.A,
+                                            }))
+                                        }
+                                    />
+                                    A
+                                </label>
+                                <label>
+                                    <input
+                                        type="checkbox"
+                                        name="noteB"
+                                        checked={notes.B}
+                                        onChange={() =>
+                                            setNotes((prevState) => ({
+                                                ...prevState,
+                                                B: !prevState.B,
+                                            }))
+                                        }
+                                    />
+                                    B
+                                </label>
+                            </div>
+                            {chromaticNatural === "chromatic" && (
+                                <div>
+                                    <label>
+                                        <input
+                                            type="checkbox"
+                                            checked={notes["C# / D♭"]}
+                                            onChange={() =>
+                                                setNotes((prevState) => ({
+                                                    ...prevState,
+                                                    ["C# / D♭"]:
+                                                        !prevState["C# / D♭"],
+                                                }))
+                                            }
+                                        />
+                                        C♯
+                                    </label>
+                                    <label>
+                                        <input
+                                            type="checkbox"
+                                            checked={notes["D# / E♭"]}
+                                            onChange={() =>
+                                                setNotes((prevState) => ({
+                                                    ...prevState,
+                                                    ["D# / E♭"]:
+                                                        !prevState["D# / E♭"],
+                                                }))
+                                            }
+                                        />
+                                        D♯
+                                    </label>
+                                    <label>
+                                        <input
+                                            type="checkbox"
+                                            checked={notes["F# / G♭"]}
+                                            onChange={() =>
+                                                setNotes((prevState) => ({
+                                                    ...prevState,
+                                                    ["F# / G♭"]:
+                                                        !prevState["F# / G♭"],
+                                                }))
+                                            }
+                                        />
+                                        F♯
+                                    </label>
+                                    <label>
+                                        <input
+                                            type="checkbox"
+                                            checked={notes["G# / A♭"]}
+                                            onChange={() =>
+                                                setNotes((prevState) => ({
+                                                    ...prevState,
+                                                    ["G# / A♭"]:
+                                                        !prevState["G# / A♭"],
+                                                }))
+                                            }
+                                        />
+                                        G♯
+                                    </label>
+                                    <label>
+                                        <input
+                                            type="checkbox"
+                                            checked={notes["A# / B♭"]}
+                                            onChange={() =>
+                                                setNotes((prevState) => ({
+                                                    ...prevState,
+                                                    ["A# / B♭"]:
+                                                        !prevState["A# / B♭"],
+                                                }))
+                                            }
+                                        />
+                                        A♯
+                                    </label>
+                                </div>
+                            )}
                         </div>
                     </div>
                     <div>

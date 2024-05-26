@@ -41,7 +41,7 @@ button:active {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 100px;
+    gap: 90px;
 }
 
 .notes-strings-text {
@@ -135,6 +135,16 @@ input:hover {
     display: flex;
     justify-content: center;
     gap: 15px;
+}
+
+.notes-wrapper div {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.notes-wrapper {
+    flex-direction: column;
 }
 
 .frequency-input-wrapper {
