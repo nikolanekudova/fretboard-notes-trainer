@@ -10,7 +10,7 @@ h1 {
 
 .page-wrapper {
     height: 100vh;
-    padding-top: 50px;
+    padding: 50px 20px 0px 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -116,6 +116,7 @@ input:hover {
     gap: 25px;
     color: #090909;
     padding: 0.7em 1.7em;
+    min-width: 400px;
     font-size: 1em;
     border-radius: 0.5em;
     background: white;
@@ -137,14 +138,10 @@ input:hover {
     gap: 15px;
 }
 
-.notes-wrapper div {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-}
-
 .notes-wrapper {
-    flex-direction: column;
+    flex-direction: row;
+    flex-wrap: wrap;
+    max-width: 400px;
 }
 
 .frequency-input-wrapper {
@@ -157,3 +154,9 @@ input:hover {
 input[type='radio'], input[type="checkbox"] {
     accent-color: rgb(219, 64, 26);
 }
+
+@media only screen and (max-width: 600px) {
+    .inputs-wrapper {
+        min-width: auto;
+    }
+  }
