@@ -62,15 +62,16 @@ export function TrainerPage(appStart, setAppStart) {
 
             setTimeout(() => {
                 setShowCorrect(false);
-            }, 2000);
 
-            let dataToGetRandom = getTrainerData(
-                data,
-                strings,
-                notes,
-                chromaticNatural
-            );
-            setNoteStringFrequency(generateRandomNoteString(dataToGetRandom));
+                let dataToGetRandom = getTrainerData(
+                    data,
+                    strings,
+                    notes,
+                    chromaticNatural
+                );
+
+                setNoteStringFrequency(generateRandomNoteString(dataToGetRandom));
+            }, 1000);
         }
     }, [frequency]);
 
