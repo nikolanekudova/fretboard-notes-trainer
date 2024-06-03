@@ -10,6 +10,9 @@ export function autoCorrelate(buf, sampleRate) {
 
     rms = Math.sqrt(rms / SIZE);
 
+    console.log("test");
+    console.log(rms);
+
     if (rms < 0.01)
         // not enough signal
         return;
