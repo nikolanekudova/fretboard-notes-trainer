@@ -8,7 +8,7 @@ import { playSound } from "../utils/playSound";
 import { generateRandomNoteString } from "../utils/data/generateRandomNoteString";
 import { Inputs } from "./Inputs";
 
-export function TrainerPage(appStart, setAppStart) {
+export function TrainerPage({ setTrainerStart }) {
     const [frequency, setFrequency] = useState(0);
     const [noteStringFrequency, setNoteStringFrequency] = useState({
         note: "",
@@ -123,7 +123,7 @@ export function TrainerPage(appStart, setAppStart) {
     }, []);
 
     function stopTuner() {
-        appStart.setAppStart(false);
+        setTrainerStart(false);
         location.reload(); // stop function is not working
     }
 
