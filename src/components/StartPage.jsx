@@ -1,13 +1,18 @@
 import React from "react";
 
-export function StartPage(appStart, setAppStart) {
-    function startApp() {
-        appStart.setAppStart(true);
+export function StartPage({ trainerStart, setTrainerStart, gameStart, setGameStart} ) {
+    function startTrainer() {
+        setTrainerStart(true);
+    }
+
+    function startGame() {
+        setGameStart(true);
     }
 
     return (
-        <div>
-            <button onClick={startApp}>Start Trainer 🎶</button>
+        <div className="start-page-btns-wrapper">
+            <button onClick={startTrainer}>Start Trainer 🎶</button>
+            <button onClick={startGame}>Start Game 🎮</button>
         </div>
     );
 }
