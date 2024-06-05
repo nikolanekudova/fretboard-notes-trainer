@@ -40,6 +40,7 @@ export function TrainerPage(appStart, setAppStart) {
         B: true,
     });
     const [chromaticNatural, setChromaticNatural] = useState("chromatic");
+    const [correctFrequency, setCorrectFrequency] = useState(false);
 
     // generate new random note and string when inputs change
     useEffect(() => {
@@ -57,21 +58,27 @@ export function TrainerPage(appStart, setAppStart) {
     useEffect(() => {
         // frequency from microphone is +-10 Hz from prescribed
         if (Math.abs(noteStringFrequency.frequency - frequency) <= 10) {
-            playSound(soundEffect);
-            setShowCorrect(true);
-
-            setTimeout(() => {
-                setShowCorrect(false);
-
-                let dataToGetRandom = getTrainerData(
-                    data,
-                    strings,
-                    notes,
-                    chromaticNatural
-                );
-
-                setNoteStringFrequency(generateRandomNoteString(dataToGetRandom));
-            }, 1000);
+            // because of showing false correct
+            if (correctFrequency === false) {
+                playSound(soundEffect);
+                setShowCorrect(true);
+                setCorrectFrequency(true);
+    
+                setTimeout(() => {
+                    setShowCorrect(false);
+                    setCorrectFrequency(false);
+    
+                    let dataToGetRandom = getTrainerData(
+                        data,
+                        strings,
+                        notes,
+                        chromaticNatural
+                    );
+    
+                    setNoteStringFrequency(generateRandomNoteString(dataToGetRandom));
+                }, 1500);
+            }
+            
         }
     }, [frequency]);
 

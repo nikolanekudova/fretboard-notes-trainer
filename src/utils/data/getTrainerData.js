@@ -37,6 +37,5 @@ export function getTrainerData(data, strings, notes, chromaticNatural) {
         }
     }
 
-    console.log(allData);
     return allData;
 }
