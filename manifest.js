@@ -34,8 +34,8 @@ export const manifestForPlugIn = {
         ],
         theme_color: "#ffffff",
         display: "standalone",
-        scope: "/",
-        start_url: "/",
+        scope: "/fretboard-notes-trainer/",
+        start_url: "/fretboard-notes-trainer/",
         orientation: "portrait",
     },
 };
