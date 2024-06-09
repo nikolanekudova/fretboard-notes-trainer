@@ -155,8 +155,26 @@ input[type='radio'], input[type="checkbox"] {
     accent-color: rgb(219, 64, 26);
 }
 
+@media only screen and (max-width: 480px) {
+    h1 {
+        font-size: 1.4em;
+    }
+}
+
 @media only screen and (max-width: 600px) {
     .inputs-wrapper {
         min-width: auto;
     }
-  }
+
+    .trainer-page-wrapper {
+        gap: 50px;
+    }
+
+    .notes-strings-text {
+        font-size: 1.9em;
+    }
+
+    .inputs-wrapper {
+        padding: 0.7em 1em;
+    }
+}
