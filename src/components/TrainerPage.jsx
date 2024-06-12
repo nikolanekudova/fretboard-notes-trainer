@@ -42,16 +42,29 @@ export function TrainerPage(appStart, setAppStart) {
     const [chromaticNatural, setChromaticNatural] = useState("chromatic");
     const [correctFrequency, setCorrectFrequency] = useState(false);
 
-    // generate new random note and string when inputs change
-    useEffect(() => {
+    function newNoteStringAndCheck() {
+        // check if new random string and note are the same, if true, generate new
         let dataToGetRandom = getTrainerData(
             data,
             strings,
             notes,
             chromaticNatural
         );
+        let newRandomNoteString = generateRandomNoteString(dataToGetRandom);
 
-        setNoteStringFrequency(generateRandomNoteString(dataToGetRandom));
+        if (
+            newRandomNoteString.string == noteStringFrequency.string &&
+            newRandomNoteString.note == noteStringFrequency.note
+        ) {
+            newRandomNoteString = generateRandomNoteString(dataToGetRandom);
+        }
+
+        return newRandomNoteString;
+    }
+
+    // generate new random note and string when inputs change
+    useEffect(() => {
+        setNoteStringFrequency(newNoteStringAndCheck());
     }, [strings, notes, chromaticNatural]);
 
     // check frequency from microphone
@@ -63,22 +76,14 @@ export function TrainerPage(appStart, setAppStart) {
                 playSound(soundEffect);
                 setShowCorrect(true);
                 setCorrectFrequency(true);
-    
+
                 setTimeout(() => {
                     setShowCorrect(false);
                     setCorrectFrequency(false);
-    
-                    let dataToGetRandom = getTrainerData(
-                        data,
-                        strings,
-                        notes,
-                        chromaticNatural
-                    );
-    
-                    setNoteStringFrequency(generateRandomNoteString(dataToGetRandom));
+
+                    setNoteStringFrequency(newNoteStringAndCheck());
                 }, 1500);
             }
-            
         }
     }, [frequency]);
 
@@ -88,13 +93,7 @@ export function TrainerPage(appStart, setAppStart) {
         let analyserNode = audioCtx.createAnalyser();
         let audioData = new Float32Array(analyserNode.fftSize);
 
-        let dataToGetRandom = getTrainerData(
-            data,
-            strings,
-            notes,
-            chromaticNatural
-        );
-        setNoteStringFrequency(generateRandomNoteString(dataToGetRandom));
+        setNoteStringFrequency(newNoteStringAndCheck());
         startPitchDetection();
 
         function startPitchDetection() {
