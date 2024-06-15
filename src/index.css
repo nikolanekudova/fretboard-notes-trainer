@@ -6,29 +6,36 @@
 }
 
 @font-face {
-    font-family: 'NotoSansBold';
-    src: url('../src/assets/fonts/NotoSansJP-ExtraBold.ttf') format('truetype');
+    font-family: 'MPLUS1pBold';
+    src: url('../src/assets/fonts/MPLUS1p-Bold.ttf') format('truetype');
     font-weight: 600;
     font-style: normal;
 }
 
 @font-face {
-    font-family: 'NotoSansThin';
-    src: url('../src/assets/fonts/NotoSansJP-Light.ttf') format('truetype');
-    font-weight: 400;
+    font-family: 'MPLUS1pRegular';
+    src: url('../src/assets/fonts/MPLUS1p-Regular.ttf') format('truetype');
+    font-weight: 300;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'MPLUS1pMedium';
+    src: url('../src/assets/fonts/MPLUS1p-Regular.ttf') format('truetype');
+    font-weight: 300;
     font-style: normal;
 }
 
 body {
     color: var(--text-color);
     margin: 0;
-    font-family: 'CrimsonText', serif;
+    font-family: 'MPLUS1pRegular', serif;
 }
 
 h1 {
     margin: 0;
     font-size: 2em;
-    font-family: 'NotoSansBold', serif;
+    font-family: 'MPLUS1pBold', serif;
 }
 
 .background-wrapper {
@@ -54,10 +61,10 @@ h1 {
 }
 
 button {
-    font-family: 'CrimsonText', serif;
+    font-family: MPLUS1pMedium, serif;
     color: var(--text-color);
-    padding: 0.7em 1.7em;
-    font-size: 1.1em;
+    padding: 0.8em 2.6em;
+    font-size: 1em;
     border-radius: 0.5em;
     background: var(--background-color);
     cursor: pointer;
@@ -81,6 +88,7 @@ button:active {
 }
 
 .about-trainer {
+    max-width: 900px;
     padding-top: 2vh;
 }
 

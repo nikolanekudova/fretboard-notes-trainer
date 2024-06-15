@@ -159,7 +159,7 @@ export function TrainerPage(appStart, setAppStart) {
                     changeChromaticNatural={changeChromaticNatural}
                 />
             </div>
-            <div className="frequency-input-wrapper">
+            {/* <div className="frequency-input-wrapper">
                 <label>
                     <input
                         type="checkbox"
@@ -185,7 +185,7 @@ export function TrainerPage(appStart, setAppStart) {
                         </div>
                     </div>
                 )}
-            </div>
+            </div> */}
         </div>
     );
 }
