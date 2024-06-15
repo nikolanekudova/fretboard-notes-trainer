@@ -1,15 +1,50 @@
+:root {
+    --primary-color: #B6CCDF;
+    --secondary-color: #CC8990;
+    --text-color: #090909;
+    --background-color: white;
+}
+
+@font-face {
+    font-family: 'NotoSansBold';
+    src: url('../src/assets/fonts/NotoSansJP-ExtraBold.ttf') format('truetype');
+    font-weight: 600;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'NotoSansThin';
+    src: url('../src/assets/fonts/NotoSansJP-Light.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
+
 body {
+    color: var(--text-color);
     margin: 0;
-    font-family: system-ui;
+    font-family: 'CrimsonText', serif;
 }
 
 h1 {
     margin: 0;
     font-size: 2em;
+    font-family: 'NotoSansBold', serif;
+}
+
+.background-wrapper {
+    background-image: url('../src/assets/images/background-desktop.png');
+    background-size: cover;
+    background-position: center;
+}
+
+.background-wrapper-light {
+    background-image: url('../src/assets/images/background-desktop-light.png');
+    background-size: cover;
+    background-position: center;
 }
 
 .page-wrapper {
-    height: 100vh;
+    height: 93vh;
     padding: 50px 20px 0px 20px;
     display: flex;
     flex-direction: column;
@@ -19,21 +54,22 @@ h1 {
 }
 
 button {
-    color: #090909;
+    font-family: 'CrimsonText', serif;
+    color: var(--text-color);
     padding: 0.7em 1.7em;
     font-size: 1.1em;
     border-radius: 0.5em;
-    background: #e8e8e8;
+    background: var(--background-color);
     cursor: pointer;
-    border: 1px solid #e8e8e8;
+    border: 1px solid var(--primary-color);
     transition: all 0.3s;
-    box-shadow: 6px 6px 12px #c5c5c5, -6px -6px 12px #ffffff;
+    box-shadow: 4px 4px 4px -1px var(--primary-color);
     width: fit-content;
 }
 
 button:active {
     color: #666;
-    box-shadow: inset 4px 4px 12px #c5c5c5, inset -4px -4px 12px #ffffff;
+    box-shadow: inset 4px 4px 12px var(--primary-color), inset -4px -4px 12px #ffffff;
 }
 
 .trainer-page-wrapper {
@@ -41,7 +77,11 @@ button:active {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 90px;
+    gap: 50px;
+}
+
+.about-trainer {
+    padding-top: 2vh;
 }
 
 .notes-strings-text {
@@ -114,15 +154,15 @@ input:hover {
     display: flex;
     flex-direction: column;
     gap: 25px;
-    color: #090909;
+    color: var(--text-color);
     padding: 0.7em 1.7em;
     min-width: 400px;
     font-size: 1em;
     border-radius: 0.5em;
-    background: white;
-    border: 1px solid white;
+    background: var(--background-color);
+    border: 1px solid var(--primary-color);
     transition: all 0.3s;
-    box-shadow: 2px 2px 6px #c5c5c5, -2px -2px 6px #ffffff;
+    box-shadow: 2px 2px 6px var(--primary-color), -2px -2px 6px #ffffff;
 }
 
 .header-inputs {
@@ -152,7 +192,7 @@ input:hover {
 }
 
 input[type='radio'], input[type="checkbox"] {
-    accent-color: rgb(219, 64, 26);
+    accent-color: var(--secondary-color);
 }
 
 @media only screen and (max-width: 480px) {
@@ -162,6 +202,18 @@ input[type='radio'], input[type="checkbox"] {
 }
 
 @media only screen and (max-width: 600px) {
+    .background-wrapper {
+        background-image: url('../src/assets/images/background-mobile.png');
+    }
+
+    .background-wrapper-light {
+        background-image: url('../src/assets/images/background-mobile-light.png');
+    }
+
+    .page-wrapper {
+        height: 95vh;
+    }
+
     .inputs-wrapper {
         min-width: auto;
     }
