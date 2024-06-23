@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { data } from "../data";
 import soundEffect from "../assets/correct.mp3";
 import { CorrectPage } from "./CorrectPage";
@@ -14,9 +14,9 @@ export function TrainerPage(appStart, setAppStart) {
         note: "",
         string: 0,
         frequency: -100,
+        volume: "❗️",
     });
     const [showCorrect, setShowCorrect] = useState(false);
-    const [showFrequency, setShowFrequency] = useState(false);
     const [strings, setStrings] = useState({
         E1: true,
         B: true,
@@ -27,20 +27,35 @@ export function TrainerPage(appStart, setAppStart) {
     });
     const [notes, setNotes] = useState({
         C: true,
-        "C# / D♭": true,
+        "C♯ / D♭": true,
         D: true,
-        "D# / E♭": true,
+        "D♯ / E♭": true,
         E: true,
         F: true,
-        "F# / G♭": true,
+        "F♯ / G♭": true,
         G: true,
-        "G# / A♭": true,
+        "G♯ / A♭": true,
         A: true,
-        "A# / B♭": true,
+        "A♯ / B♭": true,
         B: true,
     });
     const [chromaticNatural, setChromaticNatural] = useState("chromatic");
     const [correctFrequency, setCorrectFrequency] = useState(false);
+    const [microphoneSensitivity, setMicrophoneSensitivity] = useState("medium");
+    const microphoneSensitivityRef = useRef(0.1);
+
+    function calculateMicrophoneSensitivity(sensitivity) {
+        switch (sensitivity) {
+            case "low":
+                return 0.05;
+            case "medium":
+                return 0.1;
+            case "high":
+                return 0.15;
+            default:
+                return 0.1;
+        }
+    }
 
     function newNoteStringAndCheck() {
         // check if new random string and note are the same, if true, generate new
@@ -66,6 +81,13 @@ export function TrainerPage(appStart, setAppStart) {
     useEffect(() => {
         setNoteStringFrequency(newNoteStringAndCheck());
     }, [strings, notes, chromaticNatural]);
+
+    // Update the sensitivity number whenever the sensitivity value changes
+    useEffect(() => {
+        const sensitivityValue = calculateMicrophoneSensitivity(microphoneSensitivity);
+
+        microphoneSensitivityRef.current = sensitivityValue;
+    }, [microphoneSensitivity]);
 
     // check frequency from microphone
     useEffect(() => {
@@ -110,13 +132,16 @@ export function TrainerPage(appStart, setAppStart) {
 
                         let pitch = autoCorrelate(
                             audioData,
-                            audioCtx.sampleRate
+                            audioCtx.sampleRate,
+                            microphoneSensitivityRef.current
                         );
 
                         // ignore pitch over 1000 Hz
                         if (pitch < 1000) {
                             setFrequency(pitch);
                         }
+
+                        checkVolume();
                     }, 500); // check pitch every 0.5 s
                 })
                 .catch((err) => {
@@ -125,8 +150,30 @@ export function TrainerPage(appStart, setAppStart) {
                     alert("You have to enable the microphone. 🎤");
                     stopTuner();
                 });
+
+            function checkVolume() {
+                analyserNode.getFloatTimeDomainData(audioData);
+                const rms = calculateRMS(audioData);
+
+                setNoteStringFrequency((prevState) => ({
+                    ...prevState,
+                    volume: rms,
+                }));
+            }
         }
     }, []);
+
+    function calculateRMS(audioData) {
+        let rms = 0;
+
+        for (let i = 0; i < audioData.length; i++) {
+            rms += audioData[i] * audioData[i];
+        }
+
+        rms = Math.sqrt(rms / audioData.length);
+
+        return rms;
+    }
 
     function stopTuner() {
         appStart.setAppStart(false);
@@ -145,11 +192,76 @@ export function TrainerPage(appStart, setAppStart) {
         <div>
             {showCorrect && <CorrectPage />}
             <div className="trainer-page-wrapper">
-                <button onClick={stopTuner}>Stop Trainer 🛑</button>
+                <div className="table-wrapper">
+                    <div className="table-row-wrapper">
+                        <div>Your Frequency</div>
+                        <div>{frequency}</div>
+                    </div>
+                    <div className="table-row-wrapper">
+                        <div>Target Frequency</div>
+                        <div>{noteStringFrequency.frequency}</div>
+                    </div>
+                    {/* <div className="table-row-wrapper">
+                        <div>Your Volume</div>
+                        <div className="volume-bar-container">
+                            <div
+                                className={`volume-bar ${
+                                    noteStringFrequency.volume < 0.08
+                                        ? "volume-weak"
+                                        : ""
+                                }`}
+                                style={{
+                                    height: `${
+                                        noteStringFrequency.volume * 1000
+                                    }%`,
+                                }}
+                            ></div>
+                        </div>
+                    </div> */}
+                    <div className="table-row-wrapper">
+                        <div>Microphone Sensitivity</div>
+                        <div className="sensitivity-row-wrapper">
+                            <label className="sensitivity-label-input">
+                                <input
+                                    type="radio"
+                                    name="low"
+                                    checked={microphoneSensitivity === "low"}
+                                    onChange={() =>
+                                        setMicrophoneSensitivity("low")
+                                    }
+                                />
+                                Low
+                            </label>
+                            <label className="sensitivity-label-input">
+                                <input
+                                    type="radio"
+                                    name="medium"
+                                    checked={microphoneSensitivity === "medium"}
+                                    onChange={() =>
+                                        setMicrophoneSensitivity("medium")
+                                    }
+                                />
+                                Medium
+                            </label>
+                            <label className="sensitivity-label-input">
+                                <input
+                                    type="radio"
+                                    name="high"
+                                    checked={microphoneSensitivity === "high"}
+                                    onChange={() =>
+                                        setMicrophoneSensitivity("high")
+                                    }
+                                />
+                                High
+                            </label>
+                        </div>
+                    </div>
+                </div>
                 <div className="notes-strings-text">
                     {noteStringFrequency.note} note on{" "}
                     {noteStringFrequency.string} string
                 </div>
+                <button onClick={stopTuner}>Stop Trainer 🛑</button>
                 <Inputs
                     strings={strings}
                     setStrings={setStrings}
@@ -159,33 +271,6 @@ export function TrainerPage(appStart, setAppStart) {
                     changeChromaticNatural={changeChromaticNatural}
                 />
             </div>
-            {/* <div className="frequency-input-wrapper">
-                <label>
-                    <input
-                        type="checkbox"
-                        name="showFrequency"
-                        checked={showFrequency}
-                        onChange={() =>
-                            setShowFrequency((prevState) => !prevState)
-                        }
-                    />
-                    Show Frequency
-                </label>
-                {showFrequency && (
-                    <div className="frequency">
-                        <div className="frequency-wrapper">
-                            <div className="frequency-text">
-                                Your Frequency:
-                            </div>
-                            <div>{frequency}</div>
-                        </div>
-                        <div className="frequency-wrapper">
-                            <div className="frequency-text">Should be:</div>
-                            <div>{noteStringFrequency.frequency}</div>
-                        </div>
-                    </div>
-                )}
-            </div> */}
         </div>
     );
 }

@@ -28,13 +28,25 @@ function getRandomItem(array) {
     return array[getRandomInt(0, array.length)];
 }
 
+function getSharpOrFlat(note) {
+    // random number – zero or one
+    const zeroOrOneNumber = Math.floor(Math.random() * 2);
+
+    // return sharp or flat note 
+    return note.split(" / ")[zeroOrOneNumber];
+}
+
 export function generateRandomNoteString(data) {
     const keys = Object.keys(data);
     const randomIndex = getRandomItem(keys);
     const subKeys = Object.keys(data[randomIndex]);
     const randomKey = getRandomItem(subKeys);
-    const note = randomKey;
+    let note = randomKey;
     const frequency = data[randomIndex][randomKey];
+
+    if (note.includes("♯")) {
+        note = getSharpOrFlat(note);
+    }
 
     return {
         note: note,

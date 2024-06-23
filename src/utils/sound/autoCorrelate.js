@@ -1,4 +1,4 @@
-export function autoCorrelate(buf, sampleRate) {
+export function autoCorrelate(buf, sampleRate, microphoneSensitivityNumber) {
     // ACF2+ algorithm
     let SIZE = buf.length;
     let rms = 0;
@@ -10,7 +10,7 @@ export function autoCorrelate(buf, sampleRate) {
 
     rms = Math.sqrt(rms / SIZE);
 
-    if (rms < 0.005)
+    if (rms < microphoneSensitivityNumber)
         // not enough signal
         return;
 
