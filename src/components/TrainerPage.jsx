@@ -201,7 +201,7 @@ export function TrainerPage(appStart, setAppStart) {
                         <div>Target Frequency</div>
                         <div>{noteStringFrequency.frequency}</div>
                     </div>
-                    {/* <div className="table-row-wrapper">
+                    <div className="table-row-wrapper">
                         <div>Your Volume</div>
                         <div className="volume-bar-container">
                             <div
@@ -217,7 +217,7 @@ export function TrainerPage(appStart, setAppStart) {
                                 }}
                             ></div>
                         </div>
-                    </div> */}
+                    </div>
                     <div className="table-row-wrapper">
                         <div>Microphone Sensitivity</div>
                         <div className="sensitivity-row-wrapper">
