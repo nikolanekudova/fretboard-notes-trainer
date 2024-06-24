@@ -40,20 +40,21 @@ export function TrainerPage(appStart, setAppStart) {
         B: true,
     });
     const [chromaticNatural, setChromaticNatural] = useState("chromatic");
+    const [queryNotes, setQueryNotes] = useState(true);
     const [correctFrequency, setCorrectFrequency] = useState(false);
-    const [microphoneSensitivity, setMicrophoneSensitivity] = useState("medium");
-    const microphoneSensitivityRef = useRef(0.1);
+    const [microphoneSensitivity, setMicrophoneSensitivity] = useState("high");
+    const microphoneSensitivityRef = useRef(0.005);
 
     function calculateMicrophoneSensitivity(sensitivity) {
         switch (sensitivity) {
             case "low":
-                return 0.05;
+                return 0.1;
             case "medium":
-                return 0.1;
+                return 0.05;
             case "high":
-                return 0.15;
+                return 0.005;
             default:
-                return 0.1;
+                return 0.005;
         }
     }
 
@@ -63,7 +64,8 @@ export function TrainerPage(appStart, setAppStart) {
             data,
             strings,
             notes,
-            chromaticNatural
+            chromaticNatural,
+            queryNotes
         );
         let newRandomNoteString = generateRandomNoteString(dataToGetRandom);
 
@@ -80,7 +82,7 @@ export function TrainerPage(appStart, setAppStart) {
     // generate new random note and string when inputs change
     useEffect(() => {
         setNoteStringFrequency(newNoteStringAndCheck());
-    }, [strings, notes, chromaticNatural]);
+    }, [strings, notes, chromaticNatural, queryNotes]);
 
     // Update the sensitivity number whenever the sensitivity value changes
     useEffect(() => {
@@ -206,13 +208,13 @@ export function TrainerPage(appStart, setAppStart) {
                         <div className="volume-bar-container">
                             <div
                                 className={`volume-bar ${
-                                    noteStringFrequency.volume < 0.08
+                                    noteStringFrequency.volume < microphoneSensitivityRef.current
                                         ? "volume-weak"
                                         : ""
                                 }`}
                                 style={{
                                     height: `${
-                                        noteStringFrequency.volume * 1000
+                                        noteStringFrequency.volume * 700
                                     }%`,
                                 }}
                             ></div>
@@ -269,6 +271,8 @@ export function TrainerPage(appStart, setAppStart) {
                     setNotes={setNotes}
                     chromaticNatural={chromaticNatural}
                     changeChromaticNatural={changeChromaticNatural}
+                    queryNotes={queryNotes}
+                    setQueryNotes={setQueryNotes}
                 />
             </div>
         </div>

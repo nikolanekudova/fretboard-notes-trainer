@@ -1,4 +1,4 @@
-export function getTrainerData(data, strings, notes, chromaticNatural) {
+export function getTrainerData(data, strings, notes, chromaticNatural, queryNotes) {
     // "deep copy" of data – because of chromatic / natural filter
     let allData = JSON.parse(JSON.stringify(data));
 
@@ -37,5 +37,19 @@ export function getTrainerData(data, strings, notes, chromaticNatural) {
         }
     }
 
+    // delete query notes
+    if (queryNotes == false) {
+        for (const string in allData) {
+            // handle cases for "E1" and "E6"
+            if (string === "E1" || string === "E6") {
+                if (allData[string].hasOwnProperty("E")) {
+                    delete allData[string]["E"];
+                }
+            } else if (allData[string].hasOwnProperty(string)) {
+                delete allData[string][string];
+            }
+        }
+    }
+    
     return allData;
 }

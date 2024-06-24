@@ -7,6 +7,8 @@ export function Inputs({
     setNotes,
     chromaticNatural,
     changeChromaticNatural,
+    queryNotes,
+    setQueryNotes
 }) {
     return (
         <div className="inputs-wrapper">
@@ -76,6 +78,21 @@ export function Inputs({
                             onChange={changeChromaticNatural}
                         />
                         Natural
+                    </label>
+                </div>
+            </div>
+            <div>
+                <div className="header-inputs">Query Notes</div>
+                <div className="scale-wrapper">
+                    <label>
+                        <input
+                            type="checkbox"
+                            checked={queryNotes}
+                            onChange={() =>
+                                setQueryNotes(prevState => !prevState)
+                            }
+                        />
+                        Notes on 12th fret
                     </label>
                 </div>
             </div>
