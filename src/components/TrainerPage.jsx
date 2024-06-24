@@ -42,17 +42,17 @@ export function TrainerPage(appStart, setAppStart) {
     const [chromaticNatural, setChromaticNatural] = useState("chromatic");
     const [queryNotes, setQueryNotes] = useState(true);
     const [correctFrequency, setCorrectFrequency] = useState(false);
-    const [microphoneSensitivity, setMicrophoneSensitivity] = useState("high");
+    const [microphoneSensitivity, setMicrophoneSensitivity] = useState("medium");
     const microphoneSensitivityRef = useRef(0.005);
 
     function calculateMicrophoneSensitivity(sensitivity) {
         switch (sensitivity) {
             case "low":
-                return 0.1;
-            case "medium":
                 return 0.05;
-            case "high":
+            case "medium":
                 return 0.005;
+            case "high":
+                return 0.0005;
             default:
                 return 0.005;
         }
