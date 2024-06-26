@@ -17,6 +17,7 @@ export function TrainerPage(appStart, setAppStart) {
         volume: "❗️",
     });
     const [showCorrect, setShowCorrect] = useState(false);
+    const [showInputs, setShowInputs] = useState(true);
     const [strings, setStrings] = useState({
         E1: true,
         B: true,
@@ -42,7 +43,8 @@ export function TrainerPage(appStart, setAppStart) {
     const [chromaticNatural, setChromaticNatural] = useState("chromatic");
     const [queryNotes, setQueryNotes] = useState(true);
     const [correctFrequency, setCorrectFrequency] = useState(false);
-    const [microphoneSensitivity, setMicrophoneSensitivity] = useState("medium");
+    const [microphoneSensitivity, setMicrophoneSensitivity] =
+        useState("medium");
     const microphoneSensitivityRef = useRef(0.005);
 
     function calculateMicrophoneSensitivity(sensitivity) {
@@ -86,7 +88,9 @@ export function TrainerPage(appStart, setAppStart) {
 
     // Update the sensitivity number whenever the sensitivity value changes
     useEffect(() => {
-        const sensitivityValue = calculateMicrophoneSensitivity(microphoneSensitivity);
+        const sensitivityValue = calculateMicrophoneSensitivity(
+            microphoneSensitivity
+        );
 
         microphoneSensitivityRef.current = sensitivityValue;
     }, [microphoneSensitivity]);
@@ -193,6 +197,18 @@ export function TrainerPage(appStart, setAppStart) {
     return (
         <div>
             {showCorrect && <CorrectPage />}
+            {showInputs && (
+                <Inputs
+                    strings={strings}
+                    setStrings={setStrings}
+                    notes={notes}
+                    setNotes={setNotes}
+                    chromaticNatural={chromaticNatural}
+                    changeChromaticNatural={changeChromaticNatural}
+                    queryNotes={queryNotes}
+                    setQueryNotes={setQueryNotes}
+                />
+            )}
             <div className="trainer-page-wrapper">
                 <div className="table-wrapper">
                     <div className="table-row-wrapper">
@@ -208,7 +224,8 @@ export function TrainerPage(appStart, setAppStart) {
                         <div className="volume-bar-container">
                             <div
                                 className={`volume-bar ${
-                                    noteStringFrequency.volume < microphoneSensitivityRef.current
+                                    noteStringFrequency.volume <
+                                    microphoneSensitivityRef.current
                                         ? "volume-weak"
                                         : ""
                                 }`}
@@ -264,7 +281,7 @@ export function TrainerPage(appStart, setAppStart) {
                     {noteStringFrequency.string} string
                 </div>
                 <button onClick={stopTuner}>Stop Trainer 🛑</button>
-                <Inputs
+                {/* <Inputs
                     strings={strings}
                     setStrings={setStrings}
                     notes={notes}
@@ -273,7 +290,7 @@ export function TrainerPage(appStart, setAppStart) {
                     changeChromaticNatural={changeChromaticNatural}
                     queryNotes={queryNotes}
                     setQueryNotes={setQueryNotes}
-                />
+                /> */}
             </div>
         </div>
     );
