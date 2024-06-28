@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useContext, useEffect } from "react";
+import { AppContext } from "../context/AppContext";
 import { data } from "../data";
 import soundEffect from "../assets/correct.mp3";
 import { CorrectPage } from "./CorrectPage";
@@ -6,46 +7,25 @@ import { autoCorrelate } from "../utils/sound/autoCorrelate";
 import { getTrainerData } from "../utils/data/getTrainerData";
 import { playSound } from "../utils/playSound";
 import { generateRandomNoteString } from "../utils/data/generateRandomNoteString";
-import { Inputs } from "./Inputs";
 
-export function TrainerPage(appStart, setAppStart) {
-    const [frequency, setFrequency] = useState(0);
-    const [noteStringFrequency, setNoteStringFrequency] = useState({
-        note: "",
-        string: 0,
-        frequency: -100,
-        volume: "❗️",
-    });
-    const [showCorrect, setShowCorrect] = useState(false);
-    const [showInputs, setShowInputs] = useState(true);
-    const [strings, setStrings] = useState({
-        E1: true,
-        B: true,
-        G: true,
-        D: true,
-        A: true,
-        E6: true,
-    });
-    const [notes, setNotes] = useState({
-        C: true,
-        "C♯ / D♭": true,
-        D: true,
-        "D♯ / E♭": true,
-        E: true,
-        F: true,
-        "F♯ / G♭": true,
-        G: true,
-        "G♯ / A♭": true,
-        A: true,
-        "A♯ / B♭": true,
-        B: true,
-    });
-    const [chromaticNatural, setChromaticNatural] = useState("chromatic");
-    const [queryNotes, setQueryNotes] = useState(true);
-    const [correctFrequency, setCorrectFrequency] = useState(false);
-    const [microphoneSensitivity, setMicrophoneSensitivity] =
-        useState("medium");
-    const microphoneSensitivityRef = useRef(0.005);
+export function TrainerPage({ appStart, setAppStart }) {
+    const {
+        frequency,
+        setFrequency,
+        noteStringFrequency,
+        setNoteStringFrequency,
+        showCorrect,
+        setShowCorrect,
+        strings,
+        notes,
+        chromaticNatural,
+        queryNotes,
+        correctFrequency,
+        setCorrectFrequency,
+        microphoneSensitivity,
+        setMicrophoneSensitivity,
+        microphoneSensitivityRef,
+    } = useContext(AppContext);
 
     function calculateMicrophoneSensitivity(sensitivity) {
         switch (sensitivity) {
@@ -80,11 +60,6 @@ export function TrainerPage(appStart, setAppStart) {
 
         return newRandomNoteString;
     }
-
-    // generate new random note and string when inputs change
-    useEffect(() => {
-        setNoteStringFrequency(newNoteStringAndCheck());
-    }, [strings, notes, chromaticNatural, queryNotes]);
 
     // Update the sensitivity number whenever the sensitivity value changes
     useEffect(() => {
@@ -182,22 +157,14 @@ export function TrainerPage(appStart, setAppStart) {
     }
 
     function stopTuner() {
-        appStart.setAppStart(false);
+        setAppStart(false);
         location.reload(); // stop function is not working
-    }
-
-    function changeChromaticNatural() {
-        if (chromaticNatural === "chromatic") {
-            setChromaticNatural("natural");
-        } else {
-            setChromaticNatural("chromatic");
-        }
     }
 
     return (
         <div>
             {showCorrect && <CorrectPage />}
-            {showInputs && (
+            {/* {showInputs && (
                 <Inputs
                     strings={strings}
                     setStrings={setStrings}
@@ -208,7 +175,7 @@ export function TrainerPage(appStart, setAppStart) {
                     queryNotes={queryNotes}
                     setQueryNotes={setQueryNotes}
                 />
-            )}
+            )} */}
             <div className="trainer-page-wrapper">
                 <div className="table-wrapper">
                     <div className="table-row-wrapper">
@@ -281,16 +248,6 @@ export function TrainerPage(appStart, setAppStart) {
                     {noteStringFrequency.string} string
                 </div>
                 <button onClick={stopTuner}>Stop Trainer 🛑</button>
-                {/* <Inputs
-                    strings={strings}
-                    setStrings={setStrings}
-                    notes={notes}
-                    setNotes={setNotes}
-                    chromaticNatural={chromaticNatural}
-                    changeChromaticNatural={changeChromaticNatural}
-                    queryNotes={queryNotes}
-                    setQueryNotes={setQueryNotes}
-                /> */}
             </div>
         </div>
     );

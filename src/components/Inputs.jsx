@@ -1,15 +1,39 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { AppContext } from "../context/AppContext";
 
-export function Inputs({
-    strings = {},
-    setStrings,
-    notes = {},
-    setNotes,
-    chromaticNatural,
-    changeChromaticNatural,
-    queryNotes,
-    setQueryNotes,
-}) {
+export function Inputs({ appStart, setAppStart }) {
+    const {
+        strings,
+        setStrings,
+        notes,
+        setNotes,
+        chromaticNatural,
+        setChromaticNatural,
+        queryNotes,
+        setQueryNotes,
+        setShowInputs,
+    } = useContext(AppContext);
+
+    function startTrainer() {
+        setShowInputs(false);
+        setAppStart(true);
+    }
+
+    const [filteredNotes, setFilteredNotes] = useState([]);
+
+    useEffect(() => {
+        const filtered = Object.keys(notes).filter(
+            (note) => chromaticNatural === "chromatic" || !note.includes("#")
+        );
+        setFilteredNotes(filtered);
+    }, [notes, chromaticNatural]);
+
+    function changeChromaticNatural() {
+        setChromaticNatural((prevState) => 
+            prevState === "chromatic" ? "natural" : "chromatic"
+        );
+    }
+
     return (
         <div className="background-inputs-wrapper">
             <div className="inputs-wrapper">
@@ -67,6 +91,7 @@ export function Inputs({
                             <input
                                 type="radio"
                                 name="chromatic"
+                                value="chromatic"
                                 checked={chromaticNatural === "chromatic"}
                                 onChange={changeChromaticNatural}
                             />
@@ -76,6 +101,7 @@ export function Inputs({
                             <input
                                 type="radio"
                                 name="natural"
+                                value="natural"
                                 checked={chromaticNatural === "natural"}
                                 onChange={changeChromaticNatural}
                             />
@@ -99,8 +125,8 @@ export function Inputs({
                     </div>
                 </div>
                 <div className="inputs-btns-wrapper">
-                    <button>Start 💣</button>
-                    <button>Cancel</button>
+                    <button onClick={startTrainer}>Start 💣</button>
+                    <button onClick={() => setShowInputs(false)}>Cancel</button>
                 </div>
             </div>
         </div>

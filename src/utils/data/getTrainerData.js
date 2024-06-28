@@ -30,7 +30,7 @@ export function getTrainerData(data, strings, notes, chromaticNatural, queryNote
             let obj = allData[string];
 
             for (const key in obj) {
-                if (key.includes("#") || key.includes("♭")) {
+                if (key.includes("♯") || key.includes("♭")) {
                     delete obj[key];
                 }
             }
@@ -50,6 +50,8 @@ export function getTrainerData(data, strings, notes, chromaticNatural, queryNote
             }
         }
     }
+    
+    console.log(allData);
     
     return allData;
 }
