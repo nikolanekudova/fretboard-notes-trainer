@@ -8,7 +8,7 @@ import { getTrainerData } from "../utils/data/getTrainerData";
 import { playSound } from "../utils/playSound";
 import { generateRandomNoteString } from "../utils/data/generateRandomNoteString";
 
-export function TrainerPage({ appStart, setAppStart }) {
+export function TrainerPage({ setTrainerStart }) {
     const {
         frequency,
         setFrequency,
@@ -157,7 +157,7 @@ export function TrainerPage({ appStart, setAppStart }) {
     }
 
     function stopTuner() {
-        setAppStart(false);
+        setTrainerStart(false);
         location.reload(); // stop function is not working
     }
 

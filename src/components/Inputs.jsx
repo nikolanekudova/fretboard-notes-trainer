@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { AppContext } from "../context/AppContext";
 
-export function Inputs({ appStart, setAppStart }) {
+export function Inputs({ setTrainerStart, setGameStart, trainerOrGame }) {
     const {
         strings,
         setStrings,
@@ -16,17 +16,13 @@ export function Inputs({ appStart, setAppStart }) {
 
     function startTrainer() {
         setShowInputs(false);
-        setAppStart(true);
+
+        if (trainerOrGame === "trainer") {
+            setTrainerStart(true);
+        } else {
+            setGameStart(true);
+        }
     }
-
-    const [filteredNotes, setFilteredNotes] = useState([]);
-
-    useEffect(() => {
-        const filtered = Object.keys(notes).filter(
-            (note) => chromaticNatural === "chromatic" || !note.includes("#")
-        );
-        setFilteredNotes(filtered);
-    }, [notes, chromaticNatural]);
 
     function changeChromaticNatural() {
         setChromaticNatural((prevState) => 
@@ -37,7 +33,7 @@ export function Inputs({ appStart, setAppStart }) {
     return (
         <div className="background-inputs-wrapper">
             <div className="inputs-wrapper">
-                <h3>Set your trainer 🎸</h3>
+                <h3>Set your {trainerOrGame} 🎸</h3>
                 <div>
                     <div className="header-inputs">Strings</div>
                     <div className="strings-wrapper">
