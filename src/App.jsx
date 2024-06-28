@@ -1,32 +1,49 @@
 import { useState } from "react";
 import { StartPage } from "./components/StartPage";
 import { TrainerPage } from "./components/TrainerPage";
-import { GamePage } from "./components/GamePage";
+import { AppProvider } from "./context/AppContext";
 
 export default function App() {
     const [trainerStart, setTrainerStart] = useState(false);
     const [gameStart, setGameStart] = useState(false);
 
     return (
-        <div className="page-wrapper">
-            <h1>Fretboard Notes Trainer 🎸</h1>
-            {trainerStart === false && gameStart === false && (
-                <StartPage
-                    trainerStart={trainerStart}
-                    setTrainerStart={setTrainerStart}
-                    gameStart={gameStart}
-                    setGameStart={setGameStart}
-                />
-            )}
-            {trainerStart === true && (
-                <TrainerPage
-                    trainerStart={trainerStart}
-                    setTrainerStart={setTrainerStart}
-                />
-            )}
-            {gameStart === true && (
-                <GamePage gameStart={gameStart} setGameStart={setGameStart} />
-            )}
-        </div>
+        <AppProvider>
+            <div
+                className={`${
+                    appStart === false
+                        ? "background-wrapper"
+                        : "background-wrapper-light"
+                }`}
+            >
+                <div className="page-wrapper">
+                    <div>
+                        <h1>Fretboard Notes Trainer 🎸</h1>
+                        {appStart === false && (
+                            <p className="about-trainer">
+                                Practice makes perfect. Practice your guitar
+                                fretboard notes or, if you're confident, play a
+                                points-based game (sorry, gameplay is in
+                                progress 👀).
+                            </p>
+                        )}
+                    </div>
+                    {appStart === false && (
+                        <StartPage
+                            appStart={appStart}
+                            setAppStart={setAppStart}
+                        />
+                    )}
+                    {appStart === true && (
+                        <TrainerPage
+                            appStart={appStart}
+                            setAppStart={setAppStart}
+                        />
+                    )}
+                </div>
+            </div>
+        </AppProvider>
     );
 }
+
+export default App;

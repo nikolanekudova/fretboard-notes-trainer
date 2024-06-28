@@ -1,11 +1,60 @@
+:root {
+    --primary-color: #B6CCDF;
+    --secondary-color: #0f90ff;
+    --text-color: #090909;
+    --background-color: white;
+}
+
+@font-face {
+    font-family: 'SarabunBold';
+    src: url('../src/assets/fonts/Sarabun-Bold.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SarabunMedium';
+    src: url('../src/assets/fonts/Sarabun-Medium.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SarabunRegular';
+    src: url('../src/assets/fonts/Sarabun-Light.ttf') format('truetype');
+    font-weight: 300;
+    font-style: normal;
+}
+
 body {
+    color: var(--text-color);
     margin: 0;
-    font-family: system-ui;
+    font-family: 'SarabunRegular', sans-serif;
 }
 
 h1 {
     margin: 0;
     font-size: 2em;
+    font-family: 'SarabunBold', sans-serif;
+}
+
+h3 {
+    margin: 0;
+    font-size: 1.2em;
+    font-family: 'SarabunBold', sans-serif;
+}
+
+.background-wrapper {
+    background-image: url('../src/assets/images/background-desktop.png');
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+}
+
+.background-wrapper-light {
+    background-image: url('../src/assets/images/background-desktop-light.png');
+    background-size: cover;
+    background-position: center;
 }
 
 /* START PAGE */
@@ -16,7 +65,7 @@ h1 {
 
 /* TRAINER PAGE */
 .page-wrapper {
-    height: 100vh;
+    height: 93vh;
     padding: 50px 20px 0px 20px;
     display: flex;
     flex-direction: column;
@@ -26,21 +75,72 @@ h1 {
 }
 
 button {
-    color: #090909;
-    padding: 0.7em 1.7em;
-    font-size: 1.1em;
+    font-family: SarabunRegular, sans-serif;
+    color: var(--text-color);
+    padding: 0.8em 2.6em;
+    font-size: 1em;
     border-radius: 0.5em;
-    background: #e8e8e8;
+    background: var(--background-color);
     cursor: pointer;
-    border: 1px solid #e8e8e8;
+    border: 1px solid var(--primary-color);
     transition: all 0.3s;
-    box-shadow: 6px 6px 12px #c5c5c5, -6px -6px 12px #ffffff;
+    box-shadow: 4px 4px 4px -1px var(--primary-color);
     width: fit-content;
 }
 
 button:active {
     color: #666;
-    box-shadow: inset 4px 4px 12px #c5c5c5, inset -4px -4px 12px #ffffff;
+    box-shadow: inset 4px 4px 12px var(--primary-color), inset -4px -4px 12px #ffffff;
+}
+
+.table-wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+}
+
+.table-row-wrapper {
+    height: 24px;
+    font-size: 0.9em;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    border-bottom: 1px solid var(--primary-color);
+    padding: 5px 0px;
+
+    div {
+        width: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+.sensitivity-row-wrapper {
+    display: flex;
+    gap: 10px;
+}
+
+.sensitivity-label-input {
+    display: flex;
+    flex-direction: column;
+    font-size: 0.7em;
+}
+
+.volume-bar-container {
+    width: 30px;
+    height: 21px;
+}
+
+.volume-bar {
+    background-color: green;
+    max-width: 10px;
+    transition: height 0.1s ease;
+    transform: rotate(90deg);
+}
+
+.volume-weak {
+    background-color: red;
 }
 
 .trainer-page-wrapper {
@@ -48,7 +148,12 @@ button:active {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 90px;
+    gap: 70px;
+}
+
+.about-trainer {
+    max-width: 900px;
+    padding-top: 2vh;
 }
 
 .notes-strings-text {
@@ -117,23 +222,51 @@ input:hover {
     text-align: right;
 }
 
+.background-inputs-wrapper {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgb(250, 250, 250, 0.8);
+}
+
 .inputs-wrapper {
+    position: absolute;
+    top: 13vh;
+    left: 30vw;
+    z-index: 1;
     display: flex;
     flex-direction: column;
     gap: 25px;
-    color: #090909;
+    color: var(--text-color);
     padding: 0.7em 1.7em;
     min-width: 400px;
     font-size: 1em;
     border-radius: 0.5em;
-    background: white;
-    border: 1px solid white;
+    background: var(--background-color);
+    border: 1px solid var(--primary-color);
     transition: all 0.3s;
-    box-shadow: 2px 2px 6px #c5c5c5, -2px -2px 6px #ffffff;
+    box-shadow: 2px 2px 6px var(--primary-color);
+
+    h3 {
+        font-width: 500;
+    }
+}
+
+.inputs-btns-wrapper {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    padding-top: 10px;
+
+    button {
+        padding: 0.6em 1.9em;
+    }
 }
 
 .header-inputs {
-    font-weight: 600;
+    font-family: SarabunMedium;
     padding-bottom: 10px;
 }
 
@@ -142,6 +275,7 @@ input:hover {
 .scale-wrapper {
     display: flex;
     justify-content: center;
+    align-items: center;
     gap: 15px;
 }
 
@@ -159,11 +293,44 @@ input:hover {
 }
 
 input[type='radio'], input[type="checkbox"] {
-    accent-color: rgb(219, 64, 26);
+    accent-color: var(--secondary-color);
+}
+
+@media only screen and (max-width: 480px) {
+    h1 {
+        font-size: 1.4em;
+    }
 }
 
 @media only screen and (max-width: 600px) {
+    .background-wrapper {
+        background-image: url('../src/assets/images/background-mobile.png');
+    }
+
+    .background-wrapper-light {
+        background-image: url('../src/assets/images/background-mobile-light.png');
+    }
+
+    .page-wrapper {
+        height: 95vh;
+    }
+
     .inputs-wrapper {
         min-width: auto;
+        top: 10vh;
+        left: 0;
+        margin: 10px;
     }
-  }
+
+    .trainer-page-wrapper {
+        gap: 80px;
+    }
+
+    .notes-strings-text {
+        font-size: 1.9em;
+    }
+
+    .inputs-wrapper {
+        padding: 0.7em 1em;
+    }
+}

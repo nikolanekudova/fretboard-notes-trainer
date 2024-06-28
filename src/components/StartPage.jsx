@@ -1,18 +1,18 @@
-import React from "react";
+import React, { useContext } from "react";
+import { AppContext } from "../context/AppContext";
+import { Inputs } from "./Inputs";
 
-export function StartPage({ trainerStart, setTrainerStart, gameStart, setGameStart} ) {
-    function startTrainer() {
-        setTrainerStart(true);
-    }
-
-    function startGame() {
-        setGameStart(true);
-    }
+export function StartPage({ appStart, setAppStart }) {
+    const { showInputs, setShowInputs } = useContext(AppContext);
 
     return (
-        <div className="start-page-btns-wrapper">
-            <button onClick={startTrainer}>Start Trainer 🎶</button>
-            <button onClick={startGame}>Start Game 🎮</button>
+        <div>
+            {showInputs && (
+                <Inputs appStart={appStart} setAppStart={setAppStart} />
+            )}
+            <button onClick={() => setShowInputs(true)}>
+                Start Trainer 🎶
+            </button>
         </div>
     );
 }
