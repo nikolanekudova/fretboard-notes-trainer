@@ -41,6 +41,7 @@ export const AppProvider = ({ children }) => {
     const [microphoneSensitivity, setMicrophoneSensitivity] =
         useState("medium");
     const microphoneSensitivityRef = useRef(0.005);
+    const [results, setResults] = useState([]);
 
     return (
         <AppContext.Provider
@@ -66,6 +67,8 @@ export const AppProvider = ({ children }) => {
                 microphoneSensitivity,
                 setMicrophoneSensitivity,
                 microphoneSensitivityRef,
+                results,
+                setResults,
             }}
         >
             {children}

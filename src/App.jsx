@@ -23,10 +23,9 @@ export default function App() {
                         <h1>Fretboard Notes Trainer 🎸</h1>
                         {trainerStart === false && gameStart === false && (
                             <p className="about-trainer">
-                                Practice makes perfect. Practice your guitar
+                                Practice makes perfect! Practice your guitar
                                 fretboard notes or, if you're confident, play a
-                                points-based game (sorry, gameplay is in
-                                progress 👀).
+                                points-based game.
                             </p>
                         )}
                     </div>

@@ -1,27 +1,27 @@
 :root {
-    --primary-color: #B6CCDF;
+    --primary-color: #b6ccdf;
     --secondary-color: #0f90ff;
     --text-color: #090909;
     --background-color: white;
 }
 
 @font-face {
-    font-family: 'SarabunBold';
-    src: url('../src/assets/fonts/Sarabun-Bold.ttf') format('truetype');
+    font-family: "SarabunBold";
+    src: url("../src/assets/fonts/Sarabun-Bold.ttf") format("truetype");
     font-weight: 700;
     font-style: normal;
 }
 
 @font-face {
-    font-family: 'SarabunMedium';
-    src: url('../src/assets/fonts/Sarabun-Medium.ttf') format('truetype');
+    font-family: "SarabunMedium";
+    src: url("../src/assets/fonts/Sarabun-Medium.ttf") format("truetype");
     font-weight: 500;
     font-style: normal;
 }
 
 @font-face {
-    font-family: 'SarabunRegular';
-    src: url('../src/assets/fonts/Sarabun-Light.ttf') format('truetype');
+    font-family: "SarabunRegular";
+    src: url("../src/assets/fonts/Sarabun-Light.ttf") format("truetype");
     font-weight: 300;
     font-style: normal;
 }
@@ -29,49 +29,19 @@
 body {
     color: var(--text-color);
     margin: 0;
-    font-family: 'SarabunRegular', sans-serif;
+    font-family: "SarabunRegular", sans-serif;
 }
 
 h1 {
     margin: 0;
     font-size: 2em;
-    font-family: 'SarabunBold', sans-serif;
+    font-family: "SarabunBold", sans-serif;
 }
 
 h3 {
     margin: 0;
     font-size: 1.2em;
-    font-family: 'SarabunBold', sans-serif;
-}
-
-.background-wrapper {
-    background-image: url('../src/assets/images/background-desktop.png');
-    background-size: cover;
-    background-position: center;
-    height: 100vh;
-}
-
-.background-wrapper-light {
-    background-image: url('../src/assets/images/background-desktop-light.png');
-    background-size: cover;
-    background-position: center;
-}
-
-/* START PAGE */
-.start-page-btns-wrapper {
-    display: flex;
-    gap: 20px;
-}
-
-/* TRAINER PAGE */
-.page-wrapper {
-    height: 93vh;
-    padding: 50px 20px 0px 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 50px;
-    text-align: center;
+    font-family: "SarabunBold", sans-serif;
 }
 
 button {
@@ -90,9 +60,57 @@ button {
 
 button:active {
     color: #666;
-    box-shadow: inset 4px 4px 12px var(--primary-color), inset -4px -4px 12px #ffffff;
+    box-shadow: inset 4px 4px 12px var(--primary-color),
+        inset -4px -4px 12px #ffffff;
 }
 
+input:hover {
+    cursor: pointer;
+}
+
+input[type="radio"],
+input[type="checkbox"] {
+    accent-color: var(--secondary-color);
+}
+
+/* BACKGROUND */
+.background-wrapper {
+    background-image: url("../src/assets/images/background-desktop.png");
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+}
+
+.background-wrapper-light {
+    background-image: url("../src/assets/images/background-desktop-light.png");
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+}
+
+/* START PAGE */
+.page-wrapper {
+    height: 93vh;
+    padding: 50px 20px 0px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+    text-align: center;
+}
+
+.start-page-btns-wrapper {
+    display: flex;
+    gap: 20px;
+}
+
+.h3-game-results {
+    padding-top: 50px;
+    padding-bottom: 10px;
+    font-family: "SarabunMedium", sans-serif;
+}
+
+/* TABLES */
 .table-wrapper {
     display: flex;
     flex-direction: column;
@@ -116,6 +134,26 @@ button:active {
     }
 }
 
+.result-table {
+    width: 350px;
+    height: 180px;
+    overflow-x: hidden;
+    overflow-y: auto;
+
+    div.table-row-wrapper {
+        background-color: #ffffffbf;
+
+        div {
+            width: 120px;
+        }
+    }
+}
+
+div.table-row-wrapper.best-average-time {
+    background-color: #b7f6cc;
+}
+
+/* TRAINER PAGE */
 .sensitivity-row-wrapper {
     display: flex;
     gap: 10px;
@@ -143,7 +181,8 @@ button:active {
     background-color: red;
 }
 
-.trainer-page-wrapper {
+.trainer-page-wrapper,
+.game-page-wrapper {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -160,68 +199,7 @@ button:active {
     font-size: 2.3em;
 }
 
-.correct-page-wrapper {
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100vw;
-    height: 100vh;
-    text-align: center;
-    background-color: rgb(0, 0, 0, 0.3);
-    font-size: 100px;
-    color: white;
-
-    /* animation – fade in and out */
-    -webkit-animation: fadeinout 0.5s ease-in-out forwards;
-    animation: fadeinout 1s ease-in-out forwards;
-
-    div {
-        margin-top: 30vh;
-    }
-}
-
-@-webkit-keyframes fadeinout {
-    0%,
-    100% {
-        opacity: 0;
-    }
-    50% {
-        opacity: 1;
-    }
-}
-
-@keyframes fadeinout {
-    0%,
-    100% {
-        opacity: 0;
-    }
-    50% {
-        opacity: 1;
-    }
-}
-
-input:hover {
-    cursor: pointer;
-}
-
-.frequency {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-}
-
-.frequency-wrapper {
-    display: flex;
-    gap: 10px;
-}
-
-.frequency-text {
-    width: 120px;
-    text-align: right;
-}
-
+/* INPUTS MODAL */
 .background-inputs-wrapper {
     position: absolute;
     left: 0;
@@ -292,23 +270,61 @@ input:hover {
     padding-top: 20px;
 }
 
-input[type='radio'], input[type="checkbox"] {
-    accent-color: var(--secondary-color);
+/* CORRECT "MODAL" PAGE */
+.correct-page-wrapper {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    text-align: center;
+    background-color: rgb(0, 0, 0, 0.3);
+    font-size: 100px;
+    color: white;
+
+    /* animation – fade in and out */
+    -webkit-animation: fadeinout 0.5s ease-in-out forwards;
+    animation: fadeinout 1s ease-in-out forwards;
+
+    div {
+        margin-top: 30vh;
+    }
 }
 
+@-webkit-keyframes fadeinout {
+    0%,
+    100% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeinout {
+    0%,
+    100% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+}
+
+/* MOBILE VERSION */
 @media only screen and (max-width: 480px) {
     h1 {
         font-size: 1.4em;
     }
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 768px) {
     .background-wrapper {
-        background-image: url('../src/assets/images/background-mobile.png');
+        background-image: url("../src/assets/images/background-mobile.png");
     }
 
     .background-wrapper-light {
-        background-image: url('../src/assets/images/background-mobile-light.png');
+        background-image: url("../src/assets/images/background-mobile-light.png");
     }
 
     .page-wrapper {
@@ -322,7 +338,8 @@ input[type='radio'], input[type="checkbox"] {
         margin: 10px;
     }
 
-    .trainer-page-wrapper {
+    .trainer-page-wrapper,
+    .game-page-wrapper {
         gap: 80px;
     }
 
@@ -332,5 +349,10 @@ input[type='radio'], input[type="checkbox"] {
 
     .inputs-wrapper {
         padding: 0.7em 1em;
+    }
+
+    .start-page-btns-wrapper {
+        flex-direction: column;
+        align-items: center;
     }
 }

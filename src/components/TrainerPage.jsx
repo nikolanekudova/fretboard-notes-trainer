@@ -76,7 +76,7 @@ export function TrainerPage({ setTrainerStart }) {
         if (Math.abs(noteStringFrequency.frequency - frequency) <= 10) {
             // because of showing false correct
             if (correctFrequency === false) {
-                playSound(soundEffect);
+                //playSound(soundEffect);
                 setShowCorrect(true);
                 setCorrectFrequency(true);
 
@@ -164,18 +164,6 @@ export function TrainerPage({ setTrainerStart }) {
     return (
         <div>
             {showCorrect && <CorrectPage />}
-            {/* {showInputs && (
-                <Inputs
-                    strings={strings}
-                    setStrings={setStrings}
-                    notes={notes}
-                    setNotes={setNotes}
-                    chromaticNatural={chromaticNatural}
-                    changeChromaticNatural={changeChromaticNatural}
-                    queryNotes={queryNotes}
-                    setQueryNotes={setQueryNotes}
-                />
-            )} */}
             <div className="trainer-page-wrapper">
                 <div className="table-wrapper">
                     <div className="table-row-wrapper">
