@@ -1,6 +1,7 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { AppContext } from "../context/AppContext";
 import { Inputs } from "./Inputs";
+import { CountdownPage } from "./CountdownPage";
 
 export function StartPage({
     setTrainerStart,
@@ -10,6 +11,8 @@ export function StartPage({
 }) {
     const { showInputs, setShowInputs, results, setResults } =
         useContext(AppContext);
+
+    const [showCountdown, setShowCountdown] = useState(false);
 
     const bestAverageTime = results.length
         ? Math.min(...results.map((result) => result.averageTime))
@@ -21,8 +24,7 @@ export function StartPage({
     }
 
     function startGame() {
-        setTrainerOfGame("game");
-        setGameStart(true);
+        setShowCountdown(true);
     }
 
     // on mount get data from local storage
@@ -41,6 +43,13 @@ export function StartPage({
                     setTrainerStart={setTrainerStart}
                     setGameStart={setGameStart}
                     trainerOrGame={trainerOrGame}
+                />
+            )}
+            {showCountdown && (
+                <CountdownPage
+                    setShowCountdown={setShowCountdown}
+                    setTrainerOfGame={setTrainerOfGame}
+                    setGameStart={setGameStart}
                 />
             )}
             <div className="start-page-btns-wrapper">

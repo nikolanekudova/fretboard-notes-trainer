@@ -271,7 +271,8 @@ div.table-row-wrapper.best-average-time {
 }
 
 /* CORRECT "MODAL" PAGE */
-.correct-page-wrapper {
+.correct-page-wrapper,
+.countdown-page-wrapper {
     position: absolute;
     left: 0;
     top: 0;
@@ -308,6 +309,22 @@ div.table-row-wrapper.best-average-time {
     }
     50% {
         opacity: 1;
+    }
+}
+
+.countdown-page-wrapper {
+    background-color: rgb(0, 0, 0, 0.5);
+
+    -webkit-animation: fadein 0.3s ease-in forwards;
+    animation: fadein 0.3s ease-in forwards;
+}
+
+@keyframes fadein {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 0.8;
     }
 }
 

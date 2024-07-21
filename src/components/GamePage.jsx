@@ -1,10 +1,8 @@
 import React, { useContext, useEffect, useState, useRef } from "react";
 import { AppContext } from "../context/AppContext";
 import { data } from "../data";
-import soundEffect from "../assets/correct.mp3";
 import { CorrectPage } from "./CorrectPage";
 import { autoCorrelate } from "../utils/sound/autoCorrelate";
-import { playSound } from "../utils/playSound";
 import { generateRandomNoteString } from "../utils/data/generateRandomNoteString";
 
 export function GamePage({ setGameStart }) {
@@ -119,14 +117,12 @@ export function GamePage({ setGameStart }) {
 
                 setNotesInTime([...notesInTime, remainingTime]);
 
-                console.log(notesInTime);
-
                 setTimeout(() => {
                     setShowCorrect(false);
                     setCorrectFrequency(false);
 
                     setNoteStringFrequency(newNoteStringAndCheck());
-                }, 1500);
+                }, 1000);
             }
         }
     }, [frequency]);
@@ -216,8 +212,9 @@ export function GamePage({ setGameStart }) {
             0
         );
         const averageElapsedTime = sumElapsedTimes / elapsedTimes.length;
+        const roundedAverageElapsedTime = Math.round(averageElapsedTime * 10) / 10
 
-        return averageElapsedTime;
+        return roundedAverageElapsedTime;
     }
 
     function getCurrectDate() {
