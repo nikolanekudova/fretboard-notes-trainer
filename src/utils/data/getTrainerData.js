@@ -51,7 +51,5 @@ export function getTrainerData(data, strings, notes, chromaticNatural, queryNote
         }
     }
     
-    console.log(allData);
-    
     return allData;
 }

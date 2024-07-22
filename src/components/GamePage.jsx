@@ -1,14 +1,11 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState, useRef } from "react";
 import { AppContext } from "../context/AppContext";
 import { data } from "../data";
-import soundEffect from "../assets/correct.mp3";
 import { CorrectPage } from "./CorrectPage";
 import { autoCorrelate } from "../utils/sound/autoCorrelate";
-import { getTrainerData } from "../utils/data/getTrainerData";
-import { playSound } from "../utils/playSound";
 import { generateRandomNoteString } from "../utils/data/generateRandomNoteString";
 
-export function TrainerPage({ setTrainerStart }) {
+export function GamePage({ setGameStart }) {
     const {
         frequency,
         setFrequency,
@@ -16,16 +13,60 @@ export function TrainerPage({ setTrainerStart }) {
         setNoteStringFrequency,
         showCorrect,
         setShowCorrect,
-        strings,
-        notes,
-        chromaticNatural,
-        queryNotes,
         correctFrequency,
         setCorrectFrequency,
         microphoneSensitivity,
         setMicrophoneSensitivity,
         microphoneSensitivityRef,
+        results,
+        setResults,
     } = useContext(AppContext);
+    const [remainingTime, setRemainingTime] = useState(60);
+    const intervalRef = useRef(null);
+    const gameStoppedRef = useRef(false);
+    const [score, setScore] = useState(0);
+    const [notesInTime, setNotesInTime] = useState([60]);
+
+    const scoreRef = useRef(0);
+    useEffect(() => {
+        scoreRef.current = score;
+    }, [score]);
+
+    const notesInTimeRef = useRef([60]);
+    useEffect(() => {
+        notesInTimeRef.current = notesInTime;
+    }, [notesInTime]);
+
+    // Clear interval on component unmount
+    useEffect(() => {
+        return () => {
+            if (intervalRef.current) {
+                clearInterval(intervalRef.current);
+            }
+        };
+    }, []);
+
+    function startTimer() {
+        // Clear any existing interval
+        if (intervalRef.current) {
+            clearInterval(intervalRef.current);
+        }
+
+        setRemainingTime(60);
+
+        intervalRef.current = setInterval(() => {
+            setRemainingTime((prevTime) => {
+                if (prevTime <= 1) {
+                    clearInterval(intervalRef.current);
+                    stopGame();
+
+                    return 0;
+                }
+
+                return prevTime - 1;
+            });
+        }, 1000);
+    }
 
     function calculateMicrophoneSensitivity(sensitivity) {
         switch (sensitivity) {
@@ -41,21 +82,14 @@ export function TrainerPage({ setTrainerStart }) {
     }
 
     function newNoteStringAndCheck() {
-        // check if new random string and note are the same, if true, generate new
-        let dataToGetRandom = getTrainerData(
-            data,
-            strings,
-            notes,
-            chromaticNatural,
-            queryNotes
-        );
-        let newRandomNoteString = generateRandomNoteString(dataToGetRandom);
+        let newRandomNoteString = generateRandomNoteString(data);
 
+        // check if new random string and note are the same, if true, generate new
         if (
             newRandomNoteString.string == noteStringFrequency.string &&
             newRandomNoteString.note == noteStringFrequency.note
         ) {
-            newRandomNoteString = generateRandomNoteString(dataToGetRandom);
+            newRandomNoteString = generateRandomNoteString(data);
         }
 
         return newRandomNoteString;
@@ -79,13 +113,16 @@ export function TrainerPage({ setTrainerStart }) {
                 //playSound(soundEffect);
                 setShowCorrect(true);
                 setCorrectFrequency(true);
+                setScore((prev) => prev + 1);
+
+                setNotesInTime([...notesInTime, remainingTime]);
 
                 setTimeout(() => {
                     setShowCorrect(false);
                     setCorrectFrequency(false);
 
                     setNoteStringFrequency(newNoteStringAndCheck());
-                }, 1500);
+                }, 1000);
             }
         }
     }, [frequency]);
@@ -107,6 +144,8 @@ export function TrainerPage({ setTrainerStart }) {
                     microphoneStream.connect(analyserNode);
 
                     audioData = new Float32Array(analyserNode.fftSize);
+
+                    startTimer();
 
                     setInterval(() => {
                         analyserNode.getFloatTimeDomainData(audioData);
@@ -156,24 +195,83 @@ export function TrainerPage({ setTrainerStart }) {
         return rms;
     }
 
-    function stopTuner() {
-        setTrainerStart(false);
+    function getAverageTime(timesArray) {
+        // adding zero because of average time
+        let timesArrayWithZero = timesArray;
+        timesArrayWithZero.push(0);
+
+        let elapsedTimes = [];
+
+        for (let i = 1; i < timesArrayWithZero.length; i++) {
+            const elapsedTime = timesArrayWithZero[i - 1] - timesArrayWithZero[i];
+            elapsedTimes.push(elapsedTime);
+        }
+
+        const sumElapsedTimes = elapsedTimes.reduce(
+            (sum, time) => sum + time,
+            0
+        );
+        const averageElapsedTime = sumElapsedTimes / elapsedTimes.length;
+        const roundedAverageElapsedTime = Math.round(averageElapsedTime * 10) / 10
+
+        return roundedAverageElapsedTime;
+    }
+
+    function getCurrectDate() {
+        const date = new Date();
+
+        let day = date.getDate();
+        let month = date.getMonth() + 1;
+        let year = date.getFullYear();
+
+        return `${day}-${month}-${year}`;
+    }
+
+    function calculateAndSendToLocalStorage(currentScore, currentNotesInTime) {
+        const averageElapsedTime = getAverageTime(currentNotesInTime);
+        const currentDate = getCurrectDate();
+        const newResult = {
+            date: currentDate,
+            correctNotes: currentScore,
+            averageTime: averageElapsedTime || 0,
+        };
+
+        setResults((prevResults) => {
+            const updatedResults = [newResult, ...prevResults];
+
+            localStorage.setItem("results", JSON.stringify(updatedResults));
+
+            return updatedResults;
+        });
+    }
+
+    function stopGame() {
+        const currentScore = scoreRef.current;
+        const currentNotesInTime = notesInTimeRef.current;
+
+        // Check if game is already stopped
+        if (!gameStoppedRef.current) {
+            calculateAndSendToLocalStorage(currentScore, currentNotesInTime);
+
+            // Set gameStopped to true to prevent further calls
+            gameStoppedRef.current = true;
+        }
+
+        setGameStart(false);
+        location.reload(); // stop function is not working
+    }
+
+    function cancelGame() {
+        setGameStart(false);
         location.reload(); // stop function is not working
     }
 
     return (
         <div>
             {showCorrect && <CorrectPage />}
-            <div className="trainer-page-wrapper">
+
+            <div className="game-page-wrapper">
                 <div className="table-wrapper">
-                    <div className="table-row-wrapper">
-                        <div>Your Frequency</div>
-                        <div>{frequency}</div>
-                    </div>
-                    <div className="table-row-wrapper">
-                        <div>Target Frequency</div>
-                        <div>{noteStringFrequency.frequency}</div>
-                    </div>
                     <div className="table-row-wrapper">
                         <div>Your Volume</div>
                         <div className="volume-bar-container">
@@ -230,12 +328,20 @@ export function TrainerPage({ setTrainerStart }) {
                             </label>
                         </div>
                     </div>
+                    <div className="table-row-wrapper">
+                        <div>Your score</div>
+                        <div>{score}</div>
+                    </div>
+                    <div className="table-row-wrapper">
+                        <div>Remaining Time</div>
+                        <div>{remainingTime}</div>
+                    </div>
                 </div>
                 <div className="notes-strings-text">
                     {noteStringFrequency.note} note on{" "}
                     {noteStringFrequency.string} string
                 </div>
-                <button onClick={stopTuner}>Stop Trainer 🛑</button>
+                <button onClick={cancelGame}>Cancel Game 🏳️</button>
             </div>
         </div>
     );
