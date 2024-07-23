@@ -106,8 +106,8 @@ export function GamePage({ setGameStart }) {
 
     // check frequency from microphone
     useEffect(() => {
-        // frequency from microphone is +-10 Hz from prescribed
-        if (Math.abs(noteStringFrequency.frequency - frequency) <= 10) {
+        // frequency from microphone is +-5 Hz from prescribed
+        if (Math.abs(noteStringFrequency.frequency - frequency) <= 5) {
             // because of showing false correct
             if (correctFrequency === false) {
                 //playSound(soundEffect);
