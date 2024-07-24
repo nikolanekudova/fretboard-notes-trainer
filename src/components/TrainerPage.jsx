@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState, useRef } from "react";
 import { AppContext } from "../context/AppContext";
 import { data } from "../data";
 import soundEffect from "../assets/correct.mp3";
@@ -20,12 +20,16 @@ export function TrainerPage({ setTrainerStart }) {
         notes,
         chromaticNatural,
         queryNotes,
+        timeLimit,
         correctFrequency,
         setCorrectFrequency,
         microphoneSensitivity,
         setMicrophoneSensitivity,
         microphoneSensitivityRef,
     } = useContext(AppContext);
+    
+    const [remainingTime, setRemainingTime] = useState(60);
+    const intervalRef = useRef(null);
 
     function calculateMicrophoneSensitivity(sensitivity) {
         switch (sensitivity) {
@@ -91,6 +95,36 @@ export function TrainerPage({ setTrainerStart }) {
     }, [frequency]);
 
     useEffect(() => {
+        return () => {
+            if (intervalRef.current) {
+                clearInterval(intervalRef.current);
+            }
+        };
+    }, []);
+
+    function startTimer(timeLimit) {
+        // Clear any existing interval
+        if (intervalRef.current) {
+            clearInterval(intervalRef.current);
+        }
+
+        setRemainingTime(timeLimit);
+
+        intervalRef.current = setInterval(() => {
+            setRemainingTime((prevTime) => {
+                if (prevTime <= 1) {
+                    clearInterval(intervalRef.current);
+                    stopTuner();
+
+                    return 0;
+                }
+
+                return prevTime - 1;
+            });
+        }, 1000);
+    }
+
+    useEffect(() => {
         let audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         let microphoneStream = null;
         let analyserNode = audioCtx.createAnalyser();
@@ -107,6 +141,10 @@ export function TrainerPage({ setTrainerStart }) {
                     microphoneStream.connect(analyserNode);
 
                     audioData = new Float32Array(analyserNode.fftSize);
+
+                    if (timeLimit != "no-limit") {
+                        startTimer(timeLimit);
+                    }
 
                     setInterval(() => {
                         analyserNode.getFloatTimeDomainData(audioData);
@@ -230,6 +268,12 @@ export function TrainerPage({ setTrainerStart }) {
                             </label>
                         </div>
                     </div>
+                    {timeLimit != "no-limit" && (
+                        <div className="table-row-wrapper">
+                            <div>Remaining Time</div>
+                            <div>{remainingTime}</div>
+                        </div>
+                    )}
                 </div>
                 <div className="notes-strings-text">
                     {noteStringFrequency.note} note on{" "}

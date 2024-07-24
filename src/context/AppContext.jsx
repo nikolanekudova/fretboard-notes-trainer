@@ -37,6 +37,7 @@ export const AppProvider = ({ children }) => {
     });
     const [chromaticNatural, setChromaticNatural] = useState("chromatic");
     const [queryNotes, setQueryNotes] = useState(true);
+    const [timeLimit, setTimeLimit] = useState("no-limit");
     const [correctFrequency, setCorrectFrequency] = useState(false);
     const [microphoneSensitivity, setMicrophoneSensitivity] =
         useState("medium");
@@ -62,6 +63,8 @@ export const AppProvider = ({ children }) => {
                 setChromaticNatural,
                 queryNotes,
                 setQueryNotes,
+                timeLimit,
+                setTimeLimit,
                 correctFrequency,
                 setCorrectFrequency,
                 microphoneSensitivity,

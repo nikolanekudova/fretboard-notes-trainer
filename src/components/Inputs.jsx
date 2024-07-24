@@ -11,6 +11,8 @@ export function Inputs({ setTrainerStart, setGameStart, trainerOrGame }) {
         setChromaticNatural,
         queryNotes,
         setQueryNotes,
+        timeLimit,
+        setTimeLimit,
         setShowInputs,
     } = useContext(AppContext);
 
@@ -25,7 +27,7 @@ export function Inputs({ setTrainerStart, setGameStart, trainerOrGame }) {
     }
 
     function changeChromaticNatural() {
-        setChromaticNatural((prevState) => 
+        setChromaticNatural((prevState) =>
             prevState === "chromatic" ? "natural" : "chromatic"
         );
     }
@@ -118,6 +120,22 @@ export function Inputs({ setTrainerStart, setGameStart, trainerOrGame }) {
                             />
                             Notes on 12th fret
                         </label>
+                    </div>
+                </div>
+                <div>
+                    <div className="header-inputs">Timer</div>
+                    <div className="timer-wrapper">
+                        <select
+                            name="time-limit"
+                            id="time-limit"
+                            onChange={(e) => setTimeLimit(e.target.value)}
+                        >
+                            <option value="no-limit">No limit</option>
+                            <option value="60">1 minute</option>
+                            <option value="300">5 minute</option>
+                            <option value="600">10 minutes</option>
+                            <option value="900">15 minutes</option>
+                        </select>
                     </div>
                 </div>
                 <div className="inputs-btns-wrapper">

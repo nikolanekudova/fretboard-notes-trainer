@@ -73,6 +73,18 @@ input[type="checkbox"] {
     accent-color: var(--secondary-color);
 }
 
+select {
+    font-family: SarabunRegular, sans-serif;
+    padding: 0.1em 0em 0.1em 0.8em;
+    font-size: 1em;
+    max-width: 100px;
+    background-color: #fff;
+    border: 1px solid var(--primary-color);
+    border-radius: 0.25rem;
+    color: #000;
+    cursor: pointer;
+}
+
 /* BACKGROUND */
 .background-wrapper {
     background-image: url("../src/assets/images/background-desktop.png");
@@ -211,7 +223,7 @@ div.table-row-wrapper.best-average-time {
 
 .inputs-wrapper {
     position: absolute;
-    top: 13vh;
+    top: 8vh;
     left: 30vw;
     z-index: 1;
     display: flex;
