@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState, useRef } from "react";
 import { AppContext } from "../context/AppContext";
 import { data } from "../data";
 import soundEffect from "../assets/correct.mp3";
-import { CorrectPage } from "./CorrectPage";
+import { InfoPage } from "./InfoPage";
 import { autoCorrelate } from "../utils/sound/autoCorrelate";
 import { getTrainerData } from "../utils/data/getTrainerData";
 import { playSound } from "../utils/playSound";
@@ -16,6 +16,8 @@ export function TrainerPage({ setTrainerStart }) {
         setNoteStringFrequency,
         showCorrect,
         setShowCorrect,
+        showEndMessage,
+        setShowEndMessage,
         strings,
         notes,
         chromaticNatural,
@@ -113,10 +115,17 @@ export function TrainerPage({ setTrainerStart }) {
         intervalRef.current = setInterval(() => {
             setRemainingTime((prevTime) => {
                 if (prevTime <= 1) {
-                    clearInterval(intervalRef.current);
-                    stopTuner();
+                    setShowEndMessage(true);
 
-                    return 0;
+                    setTimeout(() => {
+                        setShowEndMessage(false);
+
+                        clearInterval(intervalRef.current);
+                        stopTuner();
+    
+                        return 0;
+                    }, 2000);
+
                 }
 
                 return prevTime - 1;
@@ -201,7 +210,8 @@ export function TrainerPage({ setTrainerStart }) {
 
     return (
         <div>
-            {showCorrect && <CorrectPage />}
+            {showCorrect && <InfoPage message={"✅"} />}
+            {showEndMessage && <InfoPage message={"The timer is up! ⏰"} />}
             <div className="trainer-page-wrapper">
                 <div className="table-wrapper">
                     <div className="table-row-wrapper">

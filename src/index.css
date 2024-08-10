@@ -284,7 +284,8 @@ div.table-row-wrapper.best-average-time {
 
 /* CORRECT "MODAL" PAGE */
 .correct-page-wrapper,
-.countdown-page-wrapper {
+.countdown-page-wrapper,
+.end-page-wrapper {
     position: absolute;
     left: 0;
     top: 0;
@@ -337,6 +338,26 @@ div.table-row-wrapper.best-average-time {
     }
     100% {
         opacity: 0.8;
+    }
+}
+
+.end-page-wrapper {
+    font-size: 80px;
+
+    -webkit-animation: fadeinoutend 1.5s ease-in-out forwards;
+    animation: fadeinoutend 1.5s ease-in-out forwards;
+}
+
+@keyframes fadeinoutend {
+    0%,
+    100% {
+        opacity: 0;
+    }
+    30% {
+        opacity: 0.9;
+    }
+    50% {
+        opacity: 1;
     }
 }
 

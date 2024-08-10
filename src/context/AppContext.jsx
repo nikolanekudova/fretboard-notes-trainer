@@ -11,6 +11,7 @@ export const AppProvider = ({ children }) => {
         volume: "❗️",
     });
     const [showCorrect, setShowCorrect] = useState(false);
+    const [showEndMessage, setShowEndMessage] = useState(false);
     const [showInputs, setShowInputs] = useState(false);
     const [strings, setStrings] = useState({
         E1: true,
@@ -53,6 +54,8 @@ export const AppProvider = ({ children }) => {
                 setNoteStringFrequency,
                 showCorrect,
                 setShowCorrect,
+                showEndMessage,
+                setShowEndMessage,
                 showInputs,
                 setShowInputs,
                 strings,

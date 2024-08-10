@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState, useRef } from "react";
 import { AppContext } from "../context/AppContext";
 import { data } from "../data";
-import { CorrectPage } from "./CorrectPage";
+import { InfoPage } from "./InfoPage";
 import { autoCorrelate } from "../utils/sound/autoCorrelate";
 import { generateRandomNoteString } from "../utils/data/generateRandomNoteString";
 
@@ -13,6 +13,8 @@ export function GamePage({ setGameStart }) {
         setNoteStringFrequency,
         showCorrect,
         setShowCorrect,
+        showEndMessage,
+        setShowEndMessage,
         correctFrequency,
         setCorrectFrequency,
         microphoneSensitivity,
@@ -203,7 +205,8 @@ export function GamePage({ setGameStart }) {
         let elapsedTimes = [];
 
         for (let i = 1; i < timesArrayWithZero.length; i++) {
-            const elapsedTime = timesArrayWithZero[i - 1] - timesArrayWithZero[i];
+            const elapsedTime =
+                timesArrayWithZero[i - 1] - timesArrayWithZero[i];
             elapsedTimes.push(elapsedTime);
         }
 
@@ -212,7 +215,8 @@ export function GamePage({ setGameStart }) {
             0
         );
         const averageElapsedTime = sumElapsedTimes / elapsedTimes.length;
-        const roundedAverageElapsedTime = Math.round(averageElapsedTime * 10) / 10
+        const roundedAverageElapsedTime =
+            Math.round(averageElapsedTime * 10) / 10;
 
         return roundedAverageElapsedTime;
     }
@@ -257,8 +261,17 @@ export function GamePage({ setGameStart }) {
             gameStoppedRef.current = true;
         }
 
-        setGameStart(false);
-        location.reload(); // stop function is not working
+        setShowEndMessage(true);
+
+        setTimeout(() => {
+            setShowEndMessage(false);
+
+            clearInterval(intervalRef.current);
+            setGameStart(false);
+            location.reload(); // stop function is not working
+
+            return 0;
+        }, 2000);
     }
 
     function cancelGame() {
@@ -268,8 +281,8 @@ export function GamePage({ setGameStart }) {
 
     return (
         <div>
-            {showCorrect && <CorrectPage />}
-
+            {showCorrect && <InfoPage message={"✅"} />}
+            {showEndMessage && <InfoPage message={"The game is over! 🕹️"} />}
             <div className="game-page-wrapper">
                 <div className="table-wrapper">
                     <div className="table-row-wrapper">
