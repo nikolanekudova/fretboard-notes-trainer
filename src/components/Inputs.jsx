@@ -132,7 +132,8 @@ export function Inputs({ setTrainerStart, setGameStart, trainerOrGame }) {
                         >
                             <option value="no-limit">No limit</option>
                             <option value="60">1 minute</option>
-                            <option value="300">5 minute</option>
+                            <option value="180">3 minutes</option>
+                            <option value="300">5 minutes</option>
                             <option value="600">10 minutes</option>
                             <option value="900">15 minutes</option>
                         </select>
