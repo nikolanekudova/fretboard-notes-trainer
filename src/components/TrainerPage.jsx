@@ -7,6 +7,8 @@ import { autoCorrelate } from "../utils/sound/autoCorrelate";
 import { getTrainerData } from "../utils/data/getTrainerData";
 import { playSound } from "../utils/playSound";
 import { generateRandomNoteString } from "../utils/data/generateRandomNoteString";
+import {calculateMicrophoneSensitivity} from "../utils/sound/calculateMicrophoneSensitivity";
+import {calculateRMS} from "../utils/sound/calculateRMS";
 
 export function TrainerPage({ setTrainerStart }) {
     const {
@@ -32,19 +34,6 @@ export function TrainerPage({ setTrainerStart }) {
     
     const [remainingTime, setRemainingTime] = useState(60);
     const intervalRef = useRef(null);
-
-    function calculateMicrophoneSensitivity(sensitivity) {
-        switch (sensitivity) {
-            case "low":
-                return 0.05;
-            case "medium":
-                return 0.005;
-            case "high":
-                return 0.0005;
-            default:
-                return 0.005;
-        }
-    }
 
     function newNoteStringAndCheck() {
         // check if new random string and note are the same, if true, generate new
@@ -190,18 +179,6 @@ export function TrainerPage({ setTrainerStart }) {
             }
         }
     }, []);
-
-    function calculateRMS(audioData) {
-        let rms = 0;
-
-        for (let i = 0; i < audioData.length; i++) {
-            rms += audioData[i] * audioData[i];
-        }
-
-        rms = Math.sqrt(rms / audioData.length);
-
-        return rms;
-    }
 
     function stopTuner() {
         setTrainerStart(false);

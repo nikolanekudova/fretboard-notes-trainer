@@ -4,6 +4,8 @@ import { data } from "../data";
 import { InfoPage } from "./InfoPage";
 import { autoCorrelate } from "../utils/sound/autoCorrelate";
 import { generateRandomNoteString } from "../utils/data/generateRandomNoteString";
+import {calculateMicrophoneSensitivity} from "../utils/sound/calculateMicrophoneSensitivity";
+import {calculateRMS} from "../utils/sound/calculateRMS";
 
 export function GamePage({ setGameStart }) {
     const {
@@ -68,19 +70,6 @@ export function GamePage({ setGameStart }) {
                 return prevTime - 1;
             });
         }, 1000);
-    }
-
-    function calculateMicrophoneSensitivity(sensitivity) {
-        switch (sensitivity) {
-            case "low":
-                return 0.05;
-            case "medium":
-                return 0.005;
-            case "high":
-                return 0.0005;
-            default:
-                return 0.005;
-        }
     }
 
     function newNoteStringAndCheck() {
@@ -184,18 +173,6 @@ export function GamePage({ setGameStart }) {
             }
         }
     }, []);
-
-    function calculateRMS(audioData) {
-        let rms = 0;
-
-        for (let i = 0; i < audioData.length; i++) {
-            rms += audioData[i] * audioData[i];
-        }
-
-        rms = Math.sqrt(rms / audioData.length);
-
-        return rms;
-    }
 
     function getAverageTime(timesArray) {
         // adding zero because of average time
